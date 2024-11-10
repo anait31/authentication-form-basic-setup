@@ -11,6 +11,8 @@ import Home from './components/Home/Home';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import Carts from './components/Carts/Carts';
+import AuthContext from './context/AuthContext';
+import PrivateRoutes from './routes/PrivateRoutes';
 
 const router = createBrowserRouter([
   {
@@ -31,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/cart',
-        element: <Carts></Carts>
+        element: <PrivateRoutes><Carts></Carts></PrivateRoutes>
       }
     ]
   },
@@ -39,6 +41,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthContext>
+      <RouterProvider router={router} />
+    </AuthContext>
   </StrictMode>,
 )

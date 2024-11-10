@@ -1,12 +1,30 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthenticationContext } from "../../context/AuthContext";
 
 const Register = () => {
+
+    const {registerUserWithMailAndPassword} = useContext(AuthenticationContext);
+    
+    const handleRegister = (e) => {
+        e.preventDefault();
+        const name = e.target.name.value;
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        registerUserWithMailAndPassword(email, password)
+        .then(registerUser => {
+            // console.log(registerUser.user)
+        })
+        .catch(error => {
+            console.log(error.message);
+        })
+    }
 
     return (
         <div className="mt-16">
             <div className="w-1/2 mx-auto">
                 <h2 className="text-center text-3xl uppercase mb-4">Register Here</h2>
-                <form className="space-y-3">
+                <form onSubmit={handleRegister} className="space-y-3">
                     <label className="input input-bordered flex items-center gap-2">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

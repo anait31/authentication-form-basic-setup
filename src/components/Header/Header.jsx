@@ -1,11 +1,23 @@
-import { NavLink } from "react-router-dom";
-const links = <>
-    <li><NavLink to={'/'}>Home</NavLink></li>
-    <li><NavLink to={'/login'}>Login</NavLink></li>
-    <li><NavLink to={'/register'}>Register</NavLink></li>
-    <li><NavLink to={'/cart'}>Cart</NavLink></li>
-</>
+import { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { AuthenticationContext } from "../../context/AuthContext";
+
 const Header = () => {
+    const { user, loginOut } = useContext(AuthenticationContext);
+
+    const links = <>
+        <li><NavLink to={'/'}>Home</NavLink></li>
+        <li><NavLink to={'/login'}>Login</NavLink></li>
+        <li><NavLink to={'/register'}>Register</NavLink></li>
+        {
+            user && <li><NavLink to={'/cart'}>Cart</NavLink></li>
+        }
+    </>
+
+    const handleLogout = () => {
+        loginOut()
+    }
+
     return (
         <div>
             <div className="navbar max-w-7xl mx-auto">
@@ -57,7 +69,10 @@ const Header = () => {
                                 </a>
                             </li>
                             <li><a>Settings</a></li>
-                            <li><a>Logout</a></li>
+                            <li><a>{user?.email}</a></li>
+                            {
+                                user ? <li><button onClick={handleLogout}>Logout</button></li> : <li><Link to={'/login'}>Login</Link></li>
+                            }
                         </ul>
                     </div>
                 </div>
